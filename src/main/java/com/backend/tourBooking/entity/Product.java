@@ -1,12 +1,15 @@
 package com.backend.tourBooking.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 
+@Getter
+@Setter
 @Entity
+@Table(name = "PRODUCT")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,4 +17,12 @@ public class Product {
     private String name;
     private String description;
     private List<String> imageUrl;
+
+    public Product() {}
+
+    public Product(String name, String description, List<String> imageUrl) {
+        this.name = name;
+        this.description = description;
+        this.imageUrl = imageUrl;
+    }
 }
