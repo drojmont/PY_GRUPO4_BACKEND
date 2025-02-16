@@ -33,10 +33,6 @@ public class ProductService implements IProductService {
     public ProductOutputDTO saveProduct(ProductInputDTO productInputDTO) {
 
        Product productEntity = modelMapper.map(productInputDTO, Product.class);
-      /* //Hardcodiar simulación DB
-       // productEntity.setId(nextId++);
-        products.add(productEntity);
-        return modelMapper.map(productEntity, ProductOutputDTO.class);*/
        Product saveProduct = productRepository.save(productEntity);
        ProductOutputDTO productOutputDTO = modelMapper.map(saveProduct,ProductOutputDTO.class);
        return productOutputDTO;
