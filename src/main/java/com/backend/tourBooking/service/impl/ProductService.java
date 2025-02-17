@@ -10,9 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Service
 public class ProductService implements IProductService {
 
@@ -20,21 +17,25 @@ public class ProductService implements IProductService {
     private final ProductRepository productRepository;
     private final ModelMapper modelMapper;
 
-    //hardcodiar simulacion DB
-    private final List<Product> products = new ArrayList<>();
-    private Long nextId = 1L;
-
     public ProductService(ProductRepository productRepository, ModelMapper modelMapper) {
         this.productRepository = productRepository;
         this.modelMapper = modelMapper;
+
     }
 
     @Override
     public ProductOutputDTO saveProduct(ProductInputDTO productInputDTO) {
 
        Product productEntity = modelMapper.map(productInputDTO, Product.class);
-       Product saveProduct = productRepository.save(productEntity);
-       ProductOutputDTO productOutputDTO = modelMapper.map(saveProduct,ProductOutputDTO.class);
+
+        if (productInputDTO.getImageUrl() != null) {
+            productEntity.setImageUrl(String.join(",", productInputDTO.getImageUrl()));
+        }
+
+        Product savedProduct = productRepository.save(productEntity);
+        ProductOutputDTO productOutputDTO = modelMapper.map(savedProduct, ProductOutputDTO.class);
+        productOutputDTO.setImageUrl(savedProduct.getStringUrlAsList());
+
        return productOutputDTO;
 
 
