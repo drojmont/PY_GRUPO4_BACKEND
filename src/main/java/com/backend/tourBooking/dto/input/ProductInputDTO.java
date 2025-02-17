@@ -1,5 +1,6 @@
 package com.backend.tourBooking.dto.input;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -11,6 +12,17 @@ import java.util.List;
 @Setter
 public class ProductInputDTO {
     private String name;
+    private String description;
+    @JsonProperty("images")
+    private List<String> imageUrl;
+
+    public ProductInputDTO() {};
+
+    public ProductInputDTO(String name, String description, List<String> imageUrl) {
+        this.name = name;
+        this.description = description;
+        this.imageUrl = imageUrl;
+    }
 
     public String getName() {
         return name;
@@ -36,17 +48,5 @@ public class ProductInputDTO {
         this.imageUrl = imageUrl;
     }
 
-    private String description;
 
-    //@NotEmpty(message = "La lista de imágenes no puede estar vacía")
-    //@Size(min = 5, max = 5, message = "Debe proporcionar exactamente 5 imágenes")
-    private List<String> imageUrl;
-
-    public ProductInputDTO() {};
-
-    public ProductInputDTO(String name, String description, List<String> imageUrl) {
-        this.name = name;
-        this.description = description;
-        this.imageUrl = imageUrl;
-    }
 }
