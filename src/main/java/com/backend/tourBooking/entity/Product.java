@@ -17,6 +17,7 @@ public class Product {
     private Long id;
     private String name;
     private String description;
+    @Column(length = 2000)
     private String imageUrl;
 
     public Long getId() {
