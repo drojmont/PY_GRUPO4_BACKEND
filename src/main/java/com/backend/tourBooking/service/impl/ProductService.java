@@ -10,6 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class ProductService implements IProductService {
 
@@ -20,7 +23,6 @@ public class ProductService implements IProductService {
     public ProductService(ProductRepository productRepository, ModelMapper modelMapper) {
         this.productRepository = productRepository;
         this.modelMapper = modelMapper;
-
     }
 
     @Override
@@ -37,7 +39,39 @@ public class ProductService implements IProductService {
         productOutputDTO.setImageUrl(savedProduct.getStringUrlAsList());
 
        return productOutputDTO;
+    }
+    @Override
+    public List<ProductOutputDTO> findAllProducts() {
+        return productRepository.findAll().stream()
+                .map(product -> modelMapper.map(product, ProductOutputDTO.class))
+                .collect(Collectors.toList());
+    }
 
+    @Override
+    public ProductOutputDTO findProductById(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+        return modelMapper.map(product, ProductOutputDTO.class);
+    }
 
+    @Override
+    public ProductOutputDTO updateProduct(Long id, ProductInputDTO dto) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+        product.setName(dto.getName());
+        product.setDescription(dto.getDescription());
+        product.setImageUrl(String.join(",", dto.getImageUrl()));
+
+        Product updatedProduct = productRepository.save(product);
+        return modelMapper.map(updatedProduct, ProductOutputDTO.class);
+    }
+
+    @Override
+    public void deleteProductById(Long id) {
+        if (!productRepository.existsById(id)) {
+            throw new RuntimeException("Producto no encontrado");
+        }
+        productRepository.deleteById(id);
     }
 }
