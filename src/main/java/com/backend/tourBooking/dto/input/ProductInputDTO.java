@@ -1,8 +1,6 @@
 package com.backend.tourBooking.dto.input;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,14 +12,14 @@ public class ProductInputDTO {
     private String name;
     private String description;
     @JsonProperty("images")
-    private List<String> imageUrl;
+    private List<String> images;
 
     public ProductInputDTO() {};
 
-    public ProductInputDTO(String name, String description, List<String> imageUrl) {
+    public ProductInputDTO(String name, String description, List<String> images) {
         this.name = name;
         this.description = description;
-        this.imageUrl = imageUrl;
+        this.images = images;
     }
 
     public String getName() {
@@ -40,12 +38,12 @@ public class ProductInputDTO {
         this.description = description;
     }
 
-    public List<String> getImageUrl() {
-        return imageUrl;
+    public List<String> getImages() {
+        return images;
     }
 
-    public void setImageUrl(List<String> imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 
 

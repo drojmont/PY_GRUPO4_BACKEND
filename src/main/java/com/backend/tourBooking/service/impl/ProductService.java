@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Service
 public class ProductService implements IProductService {
@@ -27,24 +27,19 @@ public class ProductService implements IProductService {
 
     @Override
     public ProductOutputDTO saveProduct(ProductInputDTO productInputDTO) {
+        Product productEntity = modelMapper.map(productInputDTO, Product.class);
 
-       Product productEntity = modelMapper.map(productInputDTO, Product.class);
-
-        if (productInputDTO.getImageUrl() != null) {
-            productEntity.setImageUrl(String.join(",", productInputDTO.getImageUrl()));
-        }
+        productEntity.setImages(productInputDTO.getImages());
 
         Product savedProduct = productRepository.save(productEntity);
-        ProductOutputDTO productOutputDTO = modelMapper.map(savedProduct, ProductOutputDTO.class);
-        productOutputDTO.setImageUrl(savedProduct.getStringUrlAsList());
-
-       return productOutputDTO;
+        return modelMapper.map(savedProduct, ProductOutputDTO.class);
     }
+
     @Override
     public List<ProductOutputDTO> findAllProducts() {
         return productRepository.findAll().stream()
                 .map(product -> modelMapper.map(product, ProductOutputDTO.class))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -61,7 +56,7 @@ public class ProductService implements IProductService {
 
         product.setName(dto.getName());
         product.setDescription(dto.getDescription());
-        product.setImageUrl(String.join(",", dto.getImageUrl()));
+        product.setImages(dto.getImages());
 
         Product updatedProduct = productRepository.save(product);
         return modelMapper.map(updatedProduct, ProductOutputDTO.class);
