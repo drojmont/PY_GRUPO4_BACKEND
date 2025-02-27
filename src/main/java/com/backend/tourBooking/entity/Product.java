@@ -18,12 +18,17 @@ public class Product {
     @Column(name = "image_url")
     private List<String> images;
 
+    @ManyToOne
+    @JoinColumn(name ="id_categoria")
+    private Category categoria;
+
     public Product() {}
 
-    public Product(String name, String description, List<String> images) {
+    public Product(String name, String description, List<String> images,Category categoria) {
         this.name = name;
         this.description = description;
         this.images = images;
+        this.categoria = categoria;
     }
 
     public Long getId() {
@@ -56,6 +61,14 @@ public class Product {
 
     public void setImages(List<String> images) {
         this.images = images;
+    }
+
+    public Category getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Category categoria) {
+        this.categoria = categoria;
     }
 
     @Override
