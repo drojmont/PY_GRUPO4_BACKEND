@@ -26,7 +26,6 @@ public class ProductoController {
 
     @PostMapping(value = "/registrar", produces = "application/json")
     public ResponseEntity<ProductOutputDTO> registerProduct(@RequestBody @Valid ProductInputDTO productInputDTO){
-
         ProductOutputDTO productOutputDTO = productService.saveProduct(productInputDTO);
         return new ResponseEntity<>(productOutputDTO, HttpStatus.CREATED);
     }
