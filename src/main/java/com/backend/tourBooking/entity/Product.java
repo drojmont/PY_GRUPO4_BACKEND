@@ -1,6 +1,8 @@
 package com.backend.tourBooking.entity;
 
 import jakarta.persistence.*;
+
+
 import java.util.List;
 
 @Entity
@@ -11,6 +13,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @Column(length = 500)
     private String description;
 
     @ElementCollection
