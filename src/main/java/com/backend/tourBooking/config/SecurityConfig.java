@@ -14,7 +14,18 @@ public class SecurityConfig {
     
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        //return new BCryptPasswordEncoder();
+        return new PasswordEncoder() {
+            @Override
+            public String encode(CharSequence rawPassword) {
+                return rawPassword.toString();
+            }
+            
+            @Override
+            public boolean matches(CharSequence rawPassword, String encodedPassword) {
+                return rawPassword.toString().equals(encodedPassword);
+            }
+        };
     }
     
     @Bean
@@ -22,9 +33,10 @@ public class SecurityConfig {
         http
             .csrf().disable()
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/api/user/registro").permitAll()
-                .requestMatchers("/api/auth/**").permitAll()
-                .anyRequest().authenticated()
+                //.requestMatchers("/api/user/registro").permitAll()
+                //.requestMatchers("/api/auth/**").permitAll()
+                //.anyRequest().authenticated()
+                .anyRequest().permitAll()
             );
         
         return http.build();
