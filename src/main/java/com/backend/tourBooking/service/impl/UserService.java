@@ -33,8 +33,13 @@ public class UserService implements IUserService {
         user.setNombre(inputDTO.getNombre());
         user.setApellido(inputDTO.getApellido());
         user.setCorreoElectronico(inputDTO.getCorreoElectronico());
-        user.setPassword(passwordEncoder.encode(inputDTO.getPassword()));
-        
+        //user.setPassword(passwordEncoder.encode(inputDTO.getPassword()));
+        if (inputDTO.getPassword() == null || inputDTO.getPassword().isEmpty()) {
+            user.setPassword("defaultpassword"); 
+        } else {
+            user.setPassword(inputDTO.getPassword()); 
+        }
+
         User savedUser = userRepository.save(user);
         
         return toOutputDTO(savedUser);
