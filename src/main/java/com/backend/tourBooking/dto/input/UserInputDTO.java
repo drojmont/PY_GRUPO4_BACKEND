@@ -24,6 +24,13 @@ public class UserInputDTO {
     @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")
     private String password;
 
+    public UserInputDTO(String nombre, String apellido, String correoElectronico, String password) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.correoElectronico = correoElectronico;
+        this.password = password;
+    }
+
     public String getNombre() {
         return nombre;
     }

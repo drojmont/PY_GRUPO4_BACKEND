@@ -63,10 +63,18 @@ public class ProductService implements IProductService {
         return modelMapper.map(product, ProductOutputDTO.class);
     }
 
+
     @Override
     public ProductOutputDTO updateProduct(Long id, ProductInputDTO dto) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+        //  Buscar y actualizar la categoría si existe
+        if (dto.getCategory() != null) {
+            Category category = categoryRepository.findById(dto.getCategory())
+                    .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
+            product.setCategoria(category);
+        }
 
         product.setName(dto.getName());
         product.setDescription(dto.getDescription());
@@ -75,6 +83,8 @@ public class ProductService implements IProductService {
         Product updatedProduct = productRepository.save(product);
         return modelMapper.map(updatedProduct, ProductOutputDTO.class);
     }
+
+
 
     @Override
     public void deleteProductById(Long id) {

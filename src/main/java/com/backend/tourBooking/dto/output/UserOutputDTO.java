@@ -13,6 +13,16 @@ public class UserOutputDTO {
     private String apellido;
     private String correoElectronico;
 
+    public UserOutputDTO() {
+    }
+
+    public UserOutputDTO(Long id, String nombre, String apellido, String correoElectronico) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.correoElectronico = correoElectronico;
+    }
+
     public Long getId() {
         return id;
     }
