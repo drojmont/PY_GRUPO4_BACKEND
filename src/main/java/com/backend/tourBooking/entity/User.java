@@ -1,5 +1,4 @@
 package com.backend.tourBooking.entity;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,18 +28,6 @@ public class User {
     private String password;
     
     private boolean activo = true;
-
-    public User() {
-    }
-
-    public User(Long id, String nombre, String apellido, String correoElectronico, String password, boolean activo) {
-        this.id = id;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.correoElectronico = correoElectronico;
-        this.password = password;
-        this.activo = activo;
-    }
 
     public Long getId() {
         return id;

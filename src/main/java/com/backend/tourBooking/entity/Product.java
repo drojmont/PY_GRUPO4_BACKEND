@@ -1,8 +1,5 @@
 package com.backend.tourBooking.entity;
-
 import jakarta.persistence.*;
-
-
 import java.util.List;
 
 @Entity
