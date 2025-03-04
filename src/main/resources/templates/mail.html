@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bienvenido a GoTrip</title>
+    <style>
+        .container {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .button {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .message {
+            color: #f00;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 style="color: #007bff;">¡Hola, bienvenido a GoTrip!</h1>
+    <p>Tu usuario fue registrado exitosamente.</p>
+    <p class="message" th:text="${message}"></p>
+    <p>Puedes acceder a tu cuenta aquí:</p>
+    <a th:href="@{https://tu-sitio.com/proximamente}" class="button">Ir a la página</a>
+    <p>Si tienes preguntas, contáctanos.</p>
+</div>
+</body>
+</html>
