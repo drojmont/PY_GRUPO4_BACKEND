@@ -5,23 +5,33 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Getter
 @Setter
 public class ProductInputDTO {
+
     private String name;
+
     private String description;
+
+    private BigDecimal price;
+
     @JsonProperty("images")
     private List<String> images;
+
     @JsonProperty("categoryId")
     private Long category;
 
+
+
     public ProductInputDTO() {};
 
-    public ProductInputDTO(String name, String description, List<String> images,Long category) {
+    public ProductInputDTO(String name, String description, BigDecimal price, List<String> images, Long category) {
         this.name = name;
         this.description = description;
+        this.price= price;
         this.images = images;
         this.category = category;
     }
@@ -50,6 +60,14 @@ public class ProductInputDTO {
         this.images = images;
     }
 
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
     public Long getCategory() {
         return category;
     }
@@ -57,4 +75,5 @@ public class ProductInputDTO {
     public void setCategory(Long category) {
         this.category = category;
     }
+
 }
