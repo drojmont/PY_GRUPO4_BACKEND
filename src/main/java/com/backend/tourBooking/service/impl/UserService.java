@@ -42,7 +42,7 @@ public class UserService implements IUserService, UserDetailsService {
 
     @Override
     @Transactional
-    public UserOutputDTO registrar(UserInputDTO inputDTO) {
+    public AuthResponse registrar(UserInputDTO inputDTO) {
         // Verificar si el correo ya existe
         if (existeCorreoElectronico(inputDTO.getCorreoElectronico())) {
             throw new CustomException("El correo electrónico ya está en uso", HttpStatus.BAD_REQUEST);
@@ -62,7 +62,11 @@ public class UserService implements IUserService, UserDetailsService {
 
         User savedUser = userRepository.save(user);
 
-        return toOutputDTO(savedUser);
+        UserOutputDTO userOutputDTO =toOutputDTO(savedUser);
+
+        String token = jwtService.generateToken(savedUser);
+
+        return new AuthResponse("Usuario registrado exitosamente",token, userOutputDTO);
     }
 
     @Override
@@ -94,7 +98,7 @@ public class UserService implements IUserService, UserDetailsService {
 //                 .build();
 
             //Es la forma conocida de instanciar
-            return new AuthResponse(token, userOutputDTO);
+            return new AuthResponse("Inicio de Sesión exitoso!",token, userOutputDTO);
 
         } catch (BadCredentialsException e) {
             throw new AuthenticationFailedException("Correo y/o Contraseña inválido");
