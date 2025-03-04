@@ -1,6 +1,7 @@
 package com.backend.tourBooking.config;
 
 import com.backend.tourBooking.auth.jwt.JwtAuthenticationFilter;
+import com.backend.tourBooking.entity.enums.Role;
 import com.backend.tourBooking.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -35,6 +36,9 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
+
+                        //proteccion de rutas especificas
+//                        .requestMatchers("/productos/registrar").hasAnyAuthority(Role.CLIENT.name())
                         //.requestMatchers("/api/user/registro").permitAll()
                         //.requestMatchers("/api/auth/**").permitAll()
                         //.anyRequest().authenticated()
