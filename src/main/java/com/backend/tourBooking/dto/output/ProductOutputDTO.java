@@ -2,6 +2,7 @@ package com.backend.tourBooking.dto.output;
 
 import com.backend.tourBooking.entity.Category;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -10,15 +11,18 @@ public class ProductOutputDTO {
     private Long id;
     private String name;
     private String description;
+    private BigDecimal price;
     private List<String> images;
     private CategoryOutputDTO categoryOutputDTO;
 
+
     public ProductOutputDTO() {};
 
-    public ProductOutputDTO(Long id, String name, String description, List<String> images, CategoryOutputDTO categoryOutputDTO) {
+    public ProductOutputDTO(Long id, String name, String description,  BigDecimal price, List<String> images, CategoryOutputDTO categoryOutputDTO) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.price=price;
         this.images = images;
         this.categoryOutputDTO = categoryOutputDTO;
     }
@@ -45,6 +49,14 @@ public class ProductOutputDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
     public List<String> getImages() {
