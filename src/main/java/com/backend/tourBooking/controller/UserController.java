@@ -1,5 +1,7 @@
 package com.backend.tourBooking.controller;
 
+import com.backend.tourBooking.auth.AuthResponse;
+import com.backend.tourBooking.auth.LoginRequest;
 import com.backend.tourBooking.dto.input.UserInputDTO;
 import com.backend.tourBooking.dto.output.UserOutputDTO;
 import com.backend.tourBooking.service.IUserService;
@@ -22,12 +24,20 @@ public class UserController {
     
     @PostMapping("/registro")
     public ResponseEntity<?> registrarUsuario(@Valid @RequestBody UserInputDTO inputDTO) {
-        UserOutputDTO usuario = userService.registrar(inputDTO);
-        
-        Map<String, Object> response = new HashMap<>();
-        response.put("message", "Usuario registrado exitosamente");
-        response.put("usuario", usuario);
-        
+//        UserOutputDTO usuario = userService.registrar(inputDTO);
+//
+//        Map<String, Object> response = new HashMap<>();
+//        response.put("message", "Usuario registrado exitosamente");
+//        response.put("usuario", usuario);
+//
+//        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        AuthResponse response = userService.registrar(inputDTO);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/iniciar-sesion")
+    public ResponseEntity<AuthResponse> iniciarSesion(@RequestBody LoginRequest loginRequest){
+        AuthResponse response = userService.login(loginRequest);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
