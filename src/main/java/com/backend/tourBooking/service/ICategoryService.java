@@ -10,7 +10,9 @@ import java.util.List;
 
 public interface ICategoryService {
     CategoryOutputDTO saveCategory(CategoryInputDTO categorytInputDTO);
-    Category getCategoryById(Long id_categoria);
+    CategoryOutputDTO getCategoryById(Long id_categoria);
     List<CategoryOutputDTO> getAllCategories();
     CategoryOutputDTO saveCategory(ProductInputDTO productInputDTO);
+
+    void deleteCategory(Long id_category);
 }

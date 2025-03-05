@@ -5,13 +5,15 @@ public class CategoryInputDTO {
     private Long id_category;
     private String name;
     private String description;
+    private String imageUrl;
 
     public CategoryInputDTO() {}
 
-    public CategoryInputDTO(String description, String name, Long id_category) {
+    public CategoryInputDTO(String description, String name, Long id_category, String imageUrl) {
         this.description = description;
         this.name = name;
         this.id_category = id_category;
+        this.imageUrl = imageUrl;
     }
 
     public String getDescription() {
@@ -34,5 +36,13 @@ public class CategoryInputDTO {
 
     public void setId_category(Long id_category) {
         this.id_category = id_category;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

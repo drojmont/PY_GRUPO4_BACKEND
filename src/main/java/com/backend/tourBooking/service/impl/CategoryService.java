@@ -38,10 +38,10 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public Category getCategoryById(Long id_category) {
-        return categoryRepository.findById(id_category)
+    public CategoryOutputDTO getCategoryById(Long id_category) {
+        Category category = categoryRepository.findById(id_category)
                 .orElseThrow(() -> new RuntimeException("Categoria no encontrado"));
-
+        return modelMapper.map(category, CategoryOutputDTO.class);
     }
 
     @Override
@@ -55,4 +55,11 @@ public class CategoryService implements ICategoryService {
         return null;
     }
 
+    @Override
+    public void deleteCategory(Long id_category) {
+        if (!categoryRepository.existsById(id_category)) {
+            throw new RuntimeException("Categoría no encontrada");
+        }
+        categoryRepository.deleteById(id_category);
+    }
 }

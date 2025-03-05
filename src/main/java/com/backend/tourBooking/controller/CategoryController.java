@@ -16,7 +16,7 @@ import java.util.List;
 @CrossOrigin
 public class CategoryController {
 
-    private ICategoryService categoryService;
+    private final ICategoryService categoryService;
 
     public CategoryController(ICategoryService categoryService) {
         this.categoryService = categoryService;
@@ -29,15 +29,21 @@ public class CategoryController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Category> getCategorById(@PathVariable Long id){
-        Category category = categoryService.getCategoryById(id);
-        return ResponseEntity.ok(category);
+    public ResponseEntity<CategoryOutputDTO> getCategorById(@PathVariable Long id){
+        CategoryOutputDTO categoryOutputDTO = categoryService.getCategoryById(id);
+        return ResponseEntity.ok(categoryOutputDTO);
     }
 
     @GetMapping
     public ResponseEntity<List<CategoryOutputDTO>> getAllCategories(){
         List<CategoryOutputDTO> categories = categoryService.getAllCategories();
         return ResponseEntity.ok(categories);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
+        categoryService.deleteCategory(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
