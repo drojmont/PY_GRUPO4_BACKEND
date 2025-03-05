@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin
 public class UserController {
 
     @Autowired
@@ -36,7 +36,7 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping("/listar")
     public ResponseEntity<List<UserOutputDTO>> getUsers() {
         try {
             List<UserOutputDTO> users = userService.listarTodosLosUsuarios();

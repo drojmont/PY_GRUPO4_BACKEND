@@ -40,8 +40,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
 
                         //proteccion de rutas especificas
-//                        .requestMatchers("/productos/registrar").hasAnyAuthority(Role.CLIENT.name())
-                        //.requestMatchers("/api/user/registro").permitAll()
+                       // .requestMatchers("/productos/registrar").hasAnyAuthority(Role.CLIENT.name())
+                        .requestMatchers("/api/user/listar").hasAnyAuthority(Role.ADMIN.name())
+                        .requestMatchers("/api/user/*/role").hasAnyAuthority(Role.ADMIN.name())
                         //.requestMatchers("/api/auth/**").permitAll()
                         //.anyRequest().authenticated()
                         .anyRequest().permitAll()
