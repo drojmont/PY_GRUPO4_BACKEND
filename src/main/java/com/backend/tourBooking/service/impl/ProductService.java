@@ -78,6 +78,7 @@ public class ProductService implements IProductService {
 
         product.setName(dto.getName());
         product.setDescription(dto.getDescription());
+        product.setPrice(dto.getPrice());
         product.setImages(dto.getImages());
 
         Product updatedProduct = productRepository.save(product);
