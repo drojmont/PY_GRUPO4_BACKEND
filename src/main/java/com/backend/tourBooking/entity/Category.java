@@ -10,14 +10,16 @@ public class Category {
     private Long id_category;
     private String name;
     private String description;
+    private String imageUrl;
 
     public Category() {
     }
 
-    public Category(Long id_categoria, String name, String description) {
+    public Category(Long id_categoria, String name, String description, String imageUrl) {
         this.id_category = id_category;
         this.name = name;
         this.description = description;
+        this.imageUrl = imageUrl;
     }
 
     public Long getId_category() {
@@ -42,5 +44,13 @@ public class Category {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
