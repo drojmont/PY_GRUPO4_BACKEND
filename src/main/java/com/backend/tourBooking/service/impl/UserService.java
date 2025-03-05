@@ -24,7 +24,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import java.util.List;
+import java.util.stream.Collectors;
 @Service
 public class UserService implements IUserService, UserDetailsService {
 
@@ -130,4 +131,26 @@ public class UserService implements IUserService, UserDetailsService {
                 user.getUsername(), "", user.getAuthorities());
 
     }
+    @Override
+    public List<UserOutputDTO> listarTodosLosUsuarios() {
+        return userRepository.findAll().stream()
+                .map(this::toOutputDTO)
+                .collect(Collectors.toList());
+    }
+
+
+    @Override
+    @Transactional
+    public UserOutputDTO cambiarRolUsuario(Long userId, Boolean isAdmin) { // Cambiado a Boolean
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException("Usuario no encontrado", HttpStatus.NOT_FOUND));
+
+        // Asignar el rol basado en el valor booleano
+        user.setRole(isAdmin ? Role.ADMIN : Role.CLIENT); // Asignar rol
+
+        User usuarioActualizado = userRepository.save(user);
+        return toOutputDTO(usuarioActualizado);
+
+    }
+
 }
