@@ -1,6 +1,5 @@
 package com.backend.tourBooking.entity;
 import jakarta.persistence.*;
-
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -28,6 +27,14 @@ public class Product {
     @JoinColumn(name ="id_categoria")
     private Category categoria;
 
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "product_feature",
+            joinColumns = { @JoinColumn(name = "product_id") },
+            inverseJoinColumns = { @JoinColumn(name = "feature_id") }
+    )
+    private List<Feature> features;
+
     public Product() {}
 
     public Product(String name, String description, List<String> images,Category categoria, BigDecimal price) {
@@ -50,9 +57,7 @@ public class Product {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setName(String name) {this.name = name;}
 
     public String getDescription() {
         return description;
@@ -85,6 +90,10 @@ public class Product {
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
+
+    public List<Feature> getFeatures() {return features;}
+
+    public void setFeatures(List<Feature> features) {this.features = features;}
 
     @Override
     public String toString() {

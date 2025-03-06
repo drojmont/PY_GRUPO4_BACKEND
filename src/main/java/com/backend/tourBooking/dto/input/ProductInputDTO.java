@@ -1,10 +1,8 @@
 package com.backend.tourBooking.dto.input;
 
-import com.backend.tourBooking.entity.Category;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -24,7 +22,7 @@ public class ProductInputDTO {
     @JsonProperty("categoryId")
     private Long category;
 
-
+    private List<Long> featureIds;
 
     public ProductInputDTO() {};
 
@@ -75,5 +73,9 @@ public class ProductInputDTO {
     public void setCategory(Long category) {
         this.category = category;
     }
+
+    public List<Long> getFeatureIds() {return featureIds;}
+
+    public void setFeatureIds(List<Long> featureIds) {this.featureIds = featureIds;}
 
 }

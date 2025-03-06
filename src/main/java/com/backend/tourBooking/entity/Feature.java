@@ -1,6 +1,7 @@
 package com.backend.tourBooking.entity;
 
 import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "features")
@@ -11,6 +12,9 @@ public class Feature {
     private Long id;
     private String name;
     private String description;
+
+    @ManyToMany(mappedBy = "features")
+    private List<Product> products;
 
     public Feature() {}
 

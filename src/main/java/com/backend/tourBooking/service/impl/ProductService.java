@@ -3,18 +3,19 @@ package com.backend.tourBooking.service.impl;
 import com.backend.tourBooking.dto.input.ProductInputDTO;
 import com.backend.tourBooking.dto.output.ProductOutputDTO;
 import com.backend.tourBooking.entity.Category;
+import com.backend.tourBooking.entity.Feature;
 import com.backend.tourBooking.entity.Product;
 import com.backend.tourBooking.repository.CategoryRepository;
+import com.backend.tourBooking.repository.FeatureRepository;
 import com.backend.tourBooking.repository.ProductRepository;
 import com.backend.tourBooking.service.IProductService;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Service;
-
+import java.util.ArrayList;
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService implements IProductService {
@@ -23,11 +24,13 @@ public class ProductService implements IProductService {
     private final ProductRepository productRepository;
     private final ModelMapper modelMapper;
     private final CategoryRepository categoryRepository;
+    private final FeatureRepository featureRepository;
 
-    public ProductService(ProductRepository productRepository, ModelMapper modelMapper, CategoryRepository categoryRepository) {
+    public ProductService(ProductRepository productRepository, ModelMapper modelMapper, CategoryRepository categoryRepository, FeatureRepository featureRepository) {
         this.productRepository = productRepository;
         this.modelMapper = modelMapper;
         this.categoryRepository = categoryRepository;
+        this.featureRepository = featureRepository;
         configureMapping();
     }
 
@@ -41,6 +44,10 @@ public class ProductService implements IProductService {
             Category category = categoryRepository.findById(productInputDTO.getCategory())
                     .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
             productEntity.setCategoria(category);
+        }
+        if (productInputDTO.getFeatureIds() != null && !productInputDTO.getFeatureIds().isEmpty()) {
+            List<Feature> features = new ArrayList<>(featureRepository.findAllById(productInputDTO.getFeatureIds()));
+            productEntity.setFeatures(features);
         }
         productEntity.setImages(productInputDTO.getImages());
 
@@ -63,29 +70,27 @@ public class ProductService implements IProductService {
         return modelMapper.map(product, ProductOutputDTO.class);
     }
 
-
     @Override
     public ProductOutputDTO updateProduct(Long id, ProductInputDTO dto) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
-        //  Buscar y actualizar la categoría si existe
+        modelMapper.map(dto, product);
+
         if (dto.getCategory() != null) {
             Category category = categoryRepository.findById(dto.getCategory())
                     .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
             product.setCategoria(category);
         }
-
-        product.setName(dto.getName());
-        product.setDescription(dto.getDescription());
-        product.setPrice(dto.getPrice());
+        if (dto.getFeatureIds() != null && !dto.getFeatureIds().isEmpty()) {
+            List<Feature> features = new ArrayList<>(featureRepository.findAllById(dto.getFeatureIds()));
+            product.setFeatures(features);
+        }
         product.setImages(dto.getImages());
 
         Product updatedProduct = productRepository.save(product);
         return modelMapper.map(updatedProduct, ProductOutputDTO.class);
     }
-
-
 
     @Override
     public void deleteProductById(Long id) {
@@ -94,9 +99,8 @@ public class ProductService implements IProductService {
         }
         productRepository.deleteById(id);
     }
-    private void configureMapping(){
+    private void configureMapping() {
         modelMapper.typeMap(Product.class, ProductOutputDTO.class)
-                .addMappings(mapper -> mapper.map(Product::getCategoria, ProductOutputDTO::setCategoryOutputDTO));
-
+                .addMappings(mapper -> mapper.map(src -> src.getFeatures().stream().map(Feature::getName).collect(Collectors.toList()), ProductOutputDTO::setFeatures));
     }
 }
