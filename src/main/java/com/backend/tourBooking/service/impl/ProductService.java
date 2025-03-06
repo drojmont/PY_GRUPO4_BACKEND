@@ -101,6 +101,12 @@ public class ProductService implements IProductService {
     }
     private void configureMapping() {
         modelMapper.typeMap(Product.class, ProductOutputDTO.class)
-                .addMappings(mapper -> mapper.map(src -> src.getFeatures().stream().map(Feature::getName).collect(Collectors.toList()), ProductOutputDTO::setFeatures));
+                .addMappings(mapper -> mapper.map(
+                        src -> {
+                            return src.getFeatures() != null ?
+                                    src.getFeatures().stream().map(Feature::getName).collect(Collectors.toList()) :
+                                    new ArrayList<String>();
+                        },
+                        ProductOutputDTO::setFeatures));
     }
 }

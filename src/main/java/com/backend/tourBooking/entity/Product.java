@@ -20,11 +20,11 @@ public class Product {
 
     @ElementCollection
     @CollectionTable(name = "product_images", joinColumns = @JoinColumn(name = "product_id"))
-    @Column(name = "image_url")
+    @Column(name = "image_url", nullable = false)
     private List<String> images;
 
     @ManyToOne
-    @JoinColumn(name ="id_categoria")
+    @JoinColumn(name ="id_categoria", nullable = false)
     private Category categoria;
 
     @ManyToMany(cascade = { CascadeType.ALL })
