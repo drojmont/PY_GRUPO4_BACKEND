@@ -107,6 +107,8 @@ public class ProductService implements IProductService {
                                     src.getFeatures().stream().map(Feature::getName).collect(Collectors.toList()) :
                                     new ArrayList<String>();
                         },
-                        ProductOutputDTO::setFeatures));
+                        ProductOutputDTO::setFeatures))
+                .addMappings(mapper -> mapper.map(Product::getCategoria, ProductOutputDTO::setCategoryOutputDTO
+                ));
     }
 }
