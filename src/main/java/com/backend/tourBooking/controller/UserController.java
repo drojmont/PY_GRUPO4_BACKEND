@@ -45,22 +45,21 @@ public class UserController {
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(users);
             } else {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); // o un mensaje de error
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); 
             }
         } catch (Exception e) {
-            // Log the error
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); // o un mensaje de error
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); 
         }
     }
 
-    @PostMapping("/{userId}/role")
-    public ResponseEntity<UserOutputDTO> updateUserRole(
-            @PathVariable Long userId,
-            @RequestBody Map<String, Boolean> requestBody
-    ) {
-        Boolean isAdmin = requestBody.get("isAdmin");
-        UserOutputDTO updatedUser = userService.cambiarRolUsuario(userId, isAdmin);
-        return ResponseEntity.ok(updatedUser);
-    }
+    @PostMapping(value = "/{userId}/role", produces = MediaType.APPLICATION_JSON_VALUE)
+public ResponseEntity<UserOutputDTO> updateUserRole(
+        @PathVariable Long userId,
+        @RequestBody Map<String, Boolean> requestBody
+) {
+    Boolean isAdmin = requestBody.get("isAdmin");
+    UserOutputDTO updatedUser = userService.cambiarRolUsuario(userId, isAdmin);
+    return ResponseEntity.ok(updatedUser);
+}
 }

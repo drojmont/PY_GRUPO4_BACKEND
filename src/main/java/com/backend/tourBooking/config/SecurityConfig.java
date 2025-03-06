@@ -38,13 +38,6 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-
-                        //proteccion de rutas especificas
-                       // .requestMatchers("/productos/registrar").hasAnyAuthority(Role.CLIENT.name())
-                        .requestMatchers("/api/user/listar").hasAnyAuthority(Role.ADMIN.name())
-                        .requestMatchers("/api/user/*/role").hasAnyAuthority(Role.ADMIN.name())
-                        //.requestMatchers("/api/auth/**").permitAll()
-                        //.anyRequest().authenticated()
                         .anyRequest().permitAll()
                 )
                 .sessionManagement(session -> session

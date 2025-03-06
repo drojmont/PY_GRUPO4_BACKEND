@@ -44,7 +44,6 @@ public class UserService implements IUserService, UserDetailsService {
     @Override
     @Transactional
     public AuthResponse registrar(UserInputDTO inputDTO) {
-        // Verificar si el correo ya existe
         if (existeCorreoElectronico(inputDTO.getCorreoElectronico())) {
             throw new CustomException("El correo electrónico ya está en uso", HttpStatus.BAD_REQUEST);
         }
